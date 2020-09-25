@@ -1,0 +1,41 @@
+@media (prefers-color-scheme: dark)
+	:root
+		--base-bg: #131a21
+		--body-bg: #222833
+		--text: #ddb
+		--link-text: #4ad
+
+@media (prefers-color-scheme: no-preference)
+	:root
+		--base-bg: #131a21
+		--body-bg: #222833
+		--text: #ddb
+		--link-text: #4ad
+
+@media (prefers-color-scheme: light)
+	:root
+		--base-bg: #fff
+		--body-bg: #fff
+		--text: #222
+		--link-text: #33f
+
+body
+	background: var(--base-bg)
+
+*
+	color: var(--text)
+	font-family: Arial, sans-serif
+
+.container
+	width: 19em
+	margin: auto
+
+footer
+	margin: 2em 0
+
+a
+	color: var(--link-text)
+	text-decoration: underline
+
+.hidden
+	display: none
