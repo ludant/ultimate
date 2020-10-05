@@ -34,9 +34,9 @@ body {
 }
 
 .input {
-  background: #424;
+  background: #525;
   margin: 1em;
-  border: 0.3em outset #636;
+  border: 0.3em outset #737;
   border-radius: 0.7em;
   font-size: 1.3em;
   padding: 0.4em 0.8em;
@@ -144,6 +144,10 @@ footer {
 
 .o-turn {
   background: linear-gradient(69deg, #191931, #29294e);
+}
+
+.closed {
+  background: #4449;
 }
 
 .macro-finished-x {

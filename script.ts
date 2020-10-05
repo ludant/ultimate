@@ -52,6 +52,8 @@ function Game() {
 	];
 	this.macroBoard = 
 		[null, null, null, null, null, null, null, null, null];
+	this.openSpaces = 
+		[true, true, true, true, true, true, true, true, true];
 
 	this.changeTurn = function() {
 		this.xTurn = !this.xTurn;
@@ -94,6 +96,7 @@ function markMacro(macro) {
 		marker.classList.add('macro-marker-o');
 		marker.textContent = 'O';
 	}
+	macro.classList.add('closed');
 	[...macro.children].forEach(micro => {
 		micro.classList.add('transparent-cell');
 		micro.classList.add('marked');
@@ -102,8 +105,10 @@ function markMacro(macro) {
 }
 
 function playerMove(cell) {
-	const id = [cell.id[5], cell.id[7]]
-	if (game.fullBoard[id[0]][id[1]] == null) {
+	const id = [Number(cell.id[5]), Number(cell.id[7])]
+	if (game.fullBoard[id[0]][id[1]] == null &&
+			game.openSpaces[id[0]]
+		 ){
 		game.fullBoard[id[0]][id[1]] = game.player;
 		const marker = cell.children[0]
 		marker.textContent = game.player;
@@ -120,9 +125,34 @@ function playerMove(cell) {
 				console.log("somebody won");
 			}
 		}
+		closeMacroCells(id);
 		game.changeTurn();
 	} else {
-		console.log('you already played there you nincompoop!!!!')
+		console.log("you can't play there you nincompoop!!!!")
+	}
+}
+
+function closeMacroCells(lastMove) {
+	const id = [lastMove[0], lastMove[1]]
+	// if player is forced into an open macrogrid
+	if (game.macroBoard[id[1]] == null) {
+		game.openSpaces = game.openSpaces.map(x => false);
+		game.openSpaces[id[1]] = true;
+	} // if player is forced into a closed macrogrid
+	else {
+		for (let i = 0; i < 9; i++) {
+			if (game.macroBoard[i] == null) {
+				game.openSpaces[i] = true
+			} else {
+				game.openSpaces[i] = false
+			}
+		}
+	}
+	for (let i = 0; i < 9; i++) {
+		const macroDiv = $(`macro${i}`)
+		if (game.openSpaces[i] == macroDiv.classList.contains('closed')) {
+			macroDiv.classList.toggle('closed')
+		}
 	}
 }
 
