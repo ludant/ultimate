@@ -1,1 +1,1 @@
-gitty git git
+https://ludant.github.io/ultimate/

@@ -35,11 +35,11 @@ body {
 
 .input {
   background: #424;
+  margin: 1em;
   border: 0.3em outset #636;
   border-radius: 0.7em;
   font-size: 1.3em;
   padding: 0.4em 0.8em;
-  width: max-content;
 }
 
 .container {
@@ -47,16 +47,21 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .board-container {
-  width: 35em;
-  margin: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 footer {
-  margin: 1em 0;
+  margin-top: 1em;
+  margin-bottom: 1em;
   margin-right: auto;
+  margin-left: 1em;
   font-size: 1.3em;
   align-self: flex-end;
 }
@@ -72,6 +77,14 @@ footer {
 
 .micro-cell-marker {
   font-size: 1em;
+}
+
+.marker-x {
+  color: #e99;
+}
+
+.marker-o {
+  color: #99e;
 }
 
 .micro-cell {
@@ -126,11 +139,37 @@ footer {
 }
 
 .x-turn {
+  background: linear-gradient(291deg, #311919, #4e2929);
+}
+
+.o-turn {
   background: linear-gradient(69deg, #191931, #29294e);
 }
 
-.y-turn {
-  background: linear-gradient(291deg, #311919, #4e2929);
+.macro-finished-x {
+  background: #7339;
+}
+
+.macro-finished-o {
+  background: #3379;
+}
+
+.transparent-cell {
+  opacity: 0.65;
+}
+
+.macro-marker {
+  position: absolute;
+  opacity: 0.35;
+  font-size: 7em;
+  align-self: center;
+  width: max-content;
+  transform: translate(15%, -17%);
+}
+
+/* this sucks and i should fix it */
+.macro-marker-o {
+  transform: translate(9%, -18%);
 }
 
 a {

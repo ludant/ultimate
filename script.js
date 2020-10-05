@@ -1,4 +1,11 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 function $(id) {
     return document.getElementById(id);
 }
@@ -64,15 +71,62 @@ function Game() {
         }
         ;
         $('container').classList.toggle('x-turn');
-        $('container').classList.toggle('y-turn');
+        $('container').classList.toggle('o-turn');
+    };
+    this.checkWin = function (grid) {
+        if ((grid[0] !== null && grid[0] == grid[1] && grid[1] == grid[2]) ||
+            (grid[3] !== null && grid[3] == grid[4] && grid[4] == grid[5]) ||
+            (grid[6] !== null && grid[6] == grid[7] && grid[7] == grid[8]) ||
+            (grid[0] !== null && grid[0] == grid[3] && grid[3] == grid[6]) ||
+            (grid[1] !== null && grid[1] == grid[4] && grid[4] == grid[7]) ||
+            (grid[2] !== null && grid[2] == grid[5] && grid[5] == grid[6]) ||
+            (grid[0] !== null && grid[0] == grid[4] && grid[4] == grid[8]) ||
+            (grid[2] !== null && grid[2] == grid[4] && grid[4] == grid[6])) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
 }
+function markMacro(macro) {
+    var marker = document.createElement('span');
+    marker.classList.add('macro-marker');
+    if (game.xTurn) {
+        macro.classList.add('macro-finished-x');
+        marker.textContent = 'X';
+    }
+    else {
+        macro.classList.add('macro-finished-o');
+        marker.classList.add('macro-marker-o');
+        marker.textContent = 'O';
+    }
+    __spreadArrays(macro.children).forEach(function (micro) {
+        micro.classList.add('transparent-cell');
+        micro.classList.add('marked');
+    });
+    macro.appendChild(marker);
+}
 function playerMove(cell) {
-    if (!cell.classList.contains('marked')) {
-        var id = [Number(cell.id[5]), Number(cell.id[7])];
+    var id = [cell.id[5], cell.id[7]];
+    if (game.fullBoard[id[0]][id[1]] == null) {
         game.fullBoard[id[0]][id[1]] = game.player;
-        cell.children[0].textContent = game.player;
+        var marker = cell.children[0];
+        marker.textContent = game.player;
         cell.classList.add('marked');
+        if (game.xTurn) {
+            marker.classList.add('marker-x');
+        }
+        else {
+            marker.classList.add('marker-o');
+        }
+        if (game.checkWin(game.fullBoard[id[0]])) {
+            game.macroBoard[id[0]] = game.player;
+            markMacro($("macro" + id[0]));
+            if (game.checkWin(game.macroBoard)) {
+                console.log("somebody won");
+            }
+        }
         game.changeTurn();
     }
     else {
