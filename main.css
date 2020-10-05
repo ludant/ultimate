@@ -24,6 +24,8 @@
 }
 body {
   background: var(--base-bg);
+  margin: 0;
+  height: 100%;
 }
 
 * {
@@ -31,13 +33,104 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.input {
+  background: #424;
+  border: 0.3em outset #636;
+  border-radius: 0.7em;
+  font-size: 1.3em;
+  padding: 0.4em 0.8em;
+  width: max-content;
+}
+
 .container {
-  width: 19em;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.board-container {
+  width: 35em;
   margin: auto;
 }
 
 footer {
-  margin: 2em 0;
+  margin: 1em 0;
+  margin-right: auto;
+  font-size: 1.3em;
+  align-self: flex-end;
+}
+
+#board {
+  margin: 3em;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.micro-cell-marker {
+  font-size: 1em;
+}
+
+.micro-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 2em;
+  height: 2em;
+}
+
+.macro-cell {
+  justify-self: center;
+  padding: 1.5em;
+}
+
+.micro-center {
+  border: 3px solid #555;
+}
+
+.micro-horizontal {
+  border-width: 3px 0px;
+  border-style: solid;
+  border-color: #555;
+}
+
+.micro-vertical {
+  border-width: 0px 3px;
+  border-style: solid;
+  border-color: #555;
+}
+
+.macro-center {
+  border: 8px ridge #555;
+}
+
+.macro-horizontal {
+  border-width: 8px 0px;
+  border-style: ridge;
+  border-color: #555;
+}
+
+.macro-vertical {
+  border-width: 0px 8px;
+  border-style: ridge;
+  border-color: #555;
+}
+
+.last-move {
+  color: #eea;
+  background: #551;
+}
+
+.x-turn {
+  background: linear-gradient(69deg, #191931, #29294e);
+}
+
+.y-turn {
+  background: linear-gradient(291deg, #311919, #4e2929);
 }
 
 a {
