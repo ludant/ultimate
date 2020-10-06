@@ -33,6 +33,15 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.header {
+  display: flex;
+}
+
+.header-div {
+  width: 100%;
+  display: flex;
+}
+
 .input {
   background: #525;
   margin: 1em;
@@ -40,6 +49,13 @@ body {
   border-radius: 0.7em;
   font-size: 1.3em;
   padding: 0.4em 0.8em;
+}
+
+.text-info {
+  font-size: 1.3em;
+  align-self: center;
+  width: 100%;
+  text-align: center;
 }
 
 .container {
@@ -68,6 +84,7 @@ footer {
 
 #board {
   margin: 3em;
+  width: 29em;
 }
 
 .board {
@@ -134,8 +151,7 @@ footer {
 }
 
 .last-move {
-  color: #eea;
-  background: #551;
+  background: #ff03;
 }
 
 .x-turn {
@@ -151,11 +167,11 @@ footer {
 }
 
 .macro-finished-x {
-  background: #7339;
+  background: #f553;
 }
 
 .macro-finished-o {
-  background: #3379;
+  background: #55f3;
 }
 
 .transparent-cell {

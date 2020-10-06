@@ -39,6 +39,7 @@ function setBoard() {
 function Game() {
 	this.xTurn = true;
 	this.player = 'X';
+	this.gameWin = false;
 	this.fullBoard = [
 		[null, null, null, null, null, null, null, null, null], 
 		[null, null, null, null, null, null, null, null, null],
@@ -77,7 +78,7 @@ function Game() {
 			(grid[6] !== null && grid[6] == grid[7] && grid[7] == grid[8]) ||
 			(grid[0] !== null && grid[0] == grid[3] && grid[3] == grid[6]) ||
 			(grid[1] !== null && grid[1] == grid[4] && grid[4] == grid[7]) ||
-			(grid[2] !== null && grid[2] == grid[5] && grid[5] == grid[6]) ||
+			(grid[2] !== null && grid[2] == grid[5] && grid[5] == grid[8]) ||
 			(grid[0] !== null && grid[0] == grid[4] && grid[4] == grid[8]) ||
 			(grid[2] !== null && grid[2] == grid[4] && grid[4] == grid[6])
 		) {return true}
@@ -105,28 +106,42 @@ function markMacro(macro) {
 }
 
 function playerMove(cell) {
-	const id = [Number(cell.id[5]), Number(cell.id[7])]
+	const id = [Number(cell.id[5]), Number(cell.id[7])];
 	if (game.fullBoard[id[0]][id[1]] == null &&
 			game.openSpaces[id[0]]
 		 ){
 		game.fullBoard[id[0]][id[1]] = game.player;
-		const marker = cell.children[0]
+		const marker = cell.children[0];
 		marker.textContent = game.player;
 		cell.classList.add('marked');
 		if (game.xTurn) {
 			marker.classList.add('marker-x');
+			$('textInfo').textContent = 'O turn';
 		} else {
 			marker.classList.add('marker-o');
+			$('textInfo').textContent = 'X turn';
 		}
 		if (game.checkWin(game.fullBoard[id[0]])) {
 			game.macroBoard[id[0]] = game.player;
 			markMacro($(`macro${id[0]}`));
 			if (game.checkWin(game.macroBoard)) {
-				console.log("somebody won");
+				game.gameWin = true;
+				game.openSpaces = game.openSpaces.map(x => false);
+				if (game.xTurn) {
+					$('container').classList.remove('x-turn')
+					$('textInfo').textContent = 'X wins';
+				} else {
+					$('container').classList.remove('o-turn')
+					$('textInfo').textContent = 'O wins';
+				}
 			}
 		}
-		closeMacroCells(id);
-		game.changeTurn();
+		document.querySelector('.last-move').classList.remove('last-move');
+		cell.classList.add('last-move');
+		if (!game.gameWin) {
+			closeMacroCells(id);
+			game.changeTurn();
+		}
 	} else {
 		console.log("you can't play there you nincompoop!!!!")
 	}
@@ -159,6 +174,8 @@ function closeMacroCells(lastMove) {
 function newOfflineGame() {
 	game = new Game();
 	$('container').classList.add('x-turn');
+	$('hiddenDiv').classList.add('last-move');
+	$('textInfo').textContent = 'X plays first';
 	boardEmpty();
 	setBoard();
 }
