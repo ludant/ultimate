@@ -30,17 +30,17 @@ function setBoard() {
         for (var j = 0; j < 9; j++) {
             _loop_1(j);
         }
-        $("micro" + i + "-4").classList.add('micro-center');
-        $("micro" + i + "-3").classList.add('micro-horizontal');
-        $("micro" + i + "-5").classList.add('micro-horizontal');
-        $("micro" + i + "-1").classList.add('micro-vertical');
-        $("micro" + i + "-7").classList.add('micro-vertical');
+        $("micro" + i + "-4").classList.add('micro-border');
+        $("micro" + i + "-3").classList.add('micro-border', 'micro-horizontal');
+        $("micro" + i + "-5").classList.add('micro-border', 'micro-horizontal');
+        $("micro" + i + "-1").classList.add('micro-border', 'micro-vertical');
+        $("micro" + i + "-7").classList.add('micro-border', 'micro-vertical');
     }
-    $("macro4").classList.add('macro-center');
-    $("macro3").classList.add('macro-horizontal');
-    $("macro5").classList.add('macro-horizontal');
-    $("macro1").classList.add('macro-vertical');
-    $("macro7").classList.add('macro-vertical');
+    $("macro4").classList.add('macro-border');
+    $("macro3").classList.add('macro-border', 'macro-horizontal');
+    $("macro5").classList.add('macro-border', 'macro-horizontal');
+    $("macro1").classList.add('macro-border', 'macro-vertical');
+    $("macro7").classList.add('macro-border', 'macro-vertical');
 }
 function Game() {
     this.xTurn = true;
@@ -93,23 +93,15 @@ function Game() {
     };
 }
 function markMacro(macro) {
-    var marker = document.createElement('span');
-    marker.classList.add('macro-marker');
-    if (game.xTurn) {
-        macro.classList.add('macro-finished-x');
-        marker.textContent = 'X';
-    }
-    else {
+    macro.classList.add('macro-finished');
+    if (!game.xTurn) {
         macro.classList.add('macro-finished-o');
-        marker.classList.add('macro-marker-o');
-        marker.textContent = 'O';
     }
     macro.classList.add('closed');
     __spreadArrays(macro.children).forEach(function (micro) {
         micro.classList.add('transparent-cell');
         micro.classList.add('marked');
     });
-    macro.appendChild(marker);
 }
 function playerMove(cell) {
     var id = [Number(cell.id[5]), Number(cell.id[7])];
@@ -191,7 +183,7 @@ function boardEmpty() {
     var board = document.createElement('div');
     board.id = 'board';
     board.classList.add('board');
-    $('boardContainer').append(board);
+    $('innerRail').append(board);
 }
 // init
 setBoard();
