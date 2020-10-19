@@ -1,7 +1,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --base-bg: #131a21;
-    --body-bg: #222833;
     --text: #ddb;
     --link-text: #4ad;
   }
@@ -9,7 +8,6 @@
 @media (prefers-color-scheme: no-preference) {
   :root {
     --base-bg: #131a21;
-    --body-bg: #222833;
     --text: #ddb;
     --link-text: #4ad;
   }
@@ -17,7 +15,6 @@
 @media (prefers-color-scheme: light) {
   :root {
     --base-bg: #fff;
-    --body-bg: #fff;
     --text: #222;
     --link-text: #33f;
   }
@@ -40,18 +37,31 @@ body {
 .header-div {
   width: 100%;
   display: flex;
+  align-items: center;
+}
+
+.username {
+  margin-left: auto;
+  margin-right: 1em;
 }
 
 .input {
   background: #525;
-  margin: 1em;
   border: 0.3em outset #737;
   border-radius: 0.7em;
   padding: 0.4em 0.8em;
 }
 
+.input-text {
+  border: 0em solid #000;
+  border-radius: 0.3em;
+}
+
+.input-btn {
+  margin: 1em;
+}
+
 .text-info {
-  align-self: center;
   width: 100%;
   text-align: center;
 }
@@ -68,15 +78,44 @@ body {
   width: 100%;
 }
 
-.board-container {
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.vertical-space {
+  margin: 1em 0em;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.flex {
   display: flex;
 }
 
+.right {
+  margin-left: auto;
+}
+
+label {
+  padding: 0.4em 0.8em;
+  width: max-content;
+}
+
+.signin {
+  background: #1a2a32;
+  border-radius: 1em;
+  padding: 1em;
+}
+
 footer {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 1em;
   margin-right: auto;
-  margin-left: 1em;
   align-self: flex-end;
 }
 
@@ -101,7 +140,6 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  justify-self: center;
   width: 1.5em;
   height: 1.5em;
 }
@@ -135,16 +173,16 @@ footer {
   border-width: 0px 4px;
 }
 
-.last-move {
+.open:hover, .last-move {
   background: #ff03;
 }
 
 .x-turn {
-  background: linear-gradient(291deg, #311919, #4e2929);
+  background: linear-gradient(291deg, #311717, #4e2929);
 }
 
 .o-turn {
-  background: linear-gradient(69deg, #191931, #29294e);
+  background: linear-gradient(69deg, #171731, #29294e);
 }
 
 .closed {
@@ -184,6 +222,10 @@ footer {
 a {
   color: var(--link-text);
   text-decoration: underline;
+}
+
+.no-left {
+  margin-left: 0;
 }
 
 .hidden {

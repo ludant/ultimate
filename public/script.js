@@ -111,6 +111,9 @@ function playerMove(cell) {
         var marker = cell.children[0];
         marker.textContent = game.player;
         cell.classList.add('marked');
+        __spreadArrays(document.querySelectorAll('.open')).forEach(function (cell) {
+            cell.classList.remove('open');
+        });
         if (game.xTurn) {
             marker.classList.add('marker-x');
             $('textInfo').textContent = 'O turn';
@@ -139,6 +142,7 @@ function playerMove(cell) {
         cell.classList.add('last-move');
         if (!game.gameWin) {
             closeMacroCells(id);
+            markOpenMicroCells();
             game.changeTurn();
         }
     }
@@ -170,6 +174,17 @@ function closeMacroCells(lastMove) {
         }
     }
 }
+function markOpenMicroCells() {
+    for (var i = 0; i < 9; i++) {
+        if (game.openSpaces[i]) {
+            for (var j = 0; j < 9; j++) {
+                if (game.fullBoard[i][j] == null) {
+                    $("micro" + i + "-" + j).classList.add('open');
+                }
+            }
+        }
+    }
+}
 function newOfflineGame() {
     game = new Game();
     $('container').classList.add('x-turn');
@@ -177,6 +192,7 @@ function newOfflineGame() {
     $('textInfo').textContent = 'X plays first';
     boardEmpty();
     setBoard();
+    markOpenMicroCells();
 }
 function boardEmpty() {
     $('board').remove();

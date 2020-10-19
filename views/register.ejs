@@ -1,0 +1,32 @@
+<%- include('header') %>
+<header class="header">
+	<a href="/">
+		<button id="newOfflineGameBtn" class="input input-btn">
+			new offline game
+		</button>
+	</a>
+</header>
+<div class="flex">
+	<div class="rail"></div>
+	<form method="post" class="flex vertical signin" role="form">
+		<div class="flex">
+			<label for="email" class="right">email</label>
+			<input type="text" id="email" name="email" class="input input-text" required>
+		</div>
+		<div class="vertical-space flex">
+			<label for="username" class="right">username</label>
+			<input type="text" id="username" name="username" class="input input-text" required>
+		</div>
+		<div class="flex">
+			<label for="password" class="right">password</label>
+			<input type="password" id="password" name="password" class="input input-text" required>
+		</div>
+		<div class="flex vertical-space">
+			<label for="confPass" class="right">confirm pass</label>
+			<input type="password" id="confPass" name="confPass" class="input input-text" required>
+		</div>
+		<input type="submit" value="submit" class="input input-submit right">
+	</form>
+	<div class="rail"></div>
+</div>
+<%- include('footer') %>

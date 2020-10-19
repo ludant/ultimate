@@ -1,0 +1,41 @@
+<%- include('header') %>
+<header class="header">
+	<div class="header-div">
+		<button id="newOfflineGameBtn" class="input input-btn">
+			new offline game
+		</button>
+	</div>
+	<div class="header-div">
+		<span id="textInfo" class="text-info"></span>
+	</div>
+	<div class="header-div">
+		<% if (username) { %>
+			<span class="username"><%= username %></span>
+			<a href="/signout" class="username no-left">sign out</a>
+		<% } else { %>
+			<a href="/signin" class="username">sign in</a>
+		<% } %>
+	</div>
+</header>
+<div id="hiddenDiv" class="hidden"></div>
+<div id="boardContainer" class="flex">
+	<div class="rail"></div>
+	<div id="innerRail">
+		<div id="board" class="board"></div>
+	</div>
+	<div class="rail"></div>
+</div>
+<% if (users.length) { %>
+	<% users.forEach(function(user) { %>
+		<p><%= user.username %></p>
+		<p><%= user.password %></p>
+	<% }) %>
+<% } else { %>
+	<p>bagels</p>
+<% } %>
+<script
+	language="JavaScript"
+	type="text/javascript"
+	src="/script.js"
+></script>
+<%- include('footer') %>
