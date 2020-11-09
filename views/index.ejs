@@ -1,8 +1,16 @@
 <%- include('header') %>
+<%- include('signin-overlay') %>
+<%- include('guest-overlay') %>
 <header class="header">
 	<div class="header-div">
 		<button id="newOfflineGameBtn" class="input input-btn">
-			new offline game
+			play offline	
+		</button>
+		<button id="newOnlineGameBtn" class="input input-btn">
+			play online	
+		</button>
+		<button id="tutorial" class="input input-btn">
+			how to play	
 		</button>
 	</div>
 	<div class="header-div">
@@ -19,11 +27,15 @@
 </header>
 <div id="hiddenDiv" class="hidden"></div>
 <div id="boardContainer" class="flex">
-	<div class="rail"></div>
+	<div class="rail-left"></div>
 	<div id="innerRail">
 		<div id="board" class="board"></div>
 	</div>
-	<div class="rail"></div>
+	<div id="chatContainer" class="rail">
+		<div id="chatLog" class="input input-text chat"></div>
+		<textarea id="chatInput" class="input input-text chat"></textarea>
+		<input id="chatSubmit" type="submit" value="send" class="input chat">
+	</div>
 </div>
 <script
 	language="JavaScript"

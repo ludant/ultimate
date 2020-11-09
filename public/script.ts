@@ -1,39 +1,73 @@
 "use strict";
 
+const wsUrl = 'ws://localhost:7565/';
+const wsConnection = new WebSocket(wsUrl);
+
 function $(id) {
 	return document.getElementById(id);
 }
 
-document.getElementById('newOfflineGameBtn').addEventListener('click', newOfflineGame);
+$('newOfflineGameBtn').addEventListener('click', newOfflineGame);
+$('chatSubmit').addEventListener('click', () => {
+	chatSend($('chatInput').value, 'jesus');
+});
+$('newOnlineGameBtn').addEventListener('click', () => {
+	$('signInOverlay').classList.remove('hidden');
+});
+$('guestEnter').addEventListener('click', () => {
+	$('signInOverlay').classList.add('hidden');
+	$('guestOverlay').classList.remove('hidden');
+});
+$('guestNoName').addEventListener('click', () => {
+	$('guestOverlay').classList.add('hidden');
+});
+$('guestYesName').addEventListener('click', () => {
+	const userSession = new UserSession();
+	userSession.xPlayer = "THIS IS NOT DONE";
+	$('guestOverlay').classList.add('hidden');
+});
 
-function setBoard() {
-	const board = $('board');
-	for (let i = 0; i < 9; i++) {
-		const macro = document.createElement('div');
-		macro.classList.add('macro-cell', 'board');
-		macro.id = `macro${i}`;
-		board.appendChild(macro);
-		for (let j = 0; j < 9; j++) {
-			const micro = document.createElement('div');
-			micro.classList.add('micro-cell');
-			micro.id = `micro${i}-${j}`;
-			macro.appendChild(micro);
-			micro.addEventListener('click', () => playerMove(micro));
-			const span = document.createElement('span');
-			span.classList.add('micro-cell-marker');
-			micro.appendChild(span);
-		}
-		$(`micro${i}-4`).classList.add('micro-border');
-		$(`micro${i}-3`).classList.add('micro-border', 'micro-horizontal');
-		$(`micro${i}-5`).classList.add('micro-border', 'micro-horizontal');
-		$(`micro${i}-1`).classList.add('micro-border', 'micro-vertical');
-		$(`micro${i}-7`).classList.add('micro-border', 'micro-vertical');
+wsConnection.onopen = () => {
+  wsConnection.send('begin connection') 
+}
+
+wsConnection.onerror = (error) => {
+  console.log(`WebSocket error: ${error}`)
+}
+
+wsConnection.onmessage = (msg) => {
+	const message = JSON.parse(msg.data)
+	switch (message.type) {
+		case 'chat':
+			chatWriteMessage(message);
+			break;
+		case 'connect':
+			break;
 	}
-	$(`macro4`).classList.add('macro-border');
-	$(`macro3`).classList.add('macro-border', 'macro-horizontal');
-	$(`macro5`).classList.add('macro-border', 'macro-horizontal');
-	$(`macro1`).classList.add('macro-border', 'macro-vertical');
-	$(`macro7`).classList.add('macro-border', 'macro-vertical');
+}
+
+function UserSession() {
+	this.xPlayer = null
+	this.oPlayer = null
+}
+
+function hideOverlay() {
+	document.querySelectorAll('.overlay').forEach((overlay) => {
+		overlay.classList.add('hidden');
+	});
+}
+
+function showAlert(message, binary, yesLabel="yes", noLabel="no", yesFunc, noFunc) {
+	hideOverlay();
+	$('alertOverlay').classList.remove('hidden');
+	$('alertMessage').textContent = message;
+	$('alertYesBtn').value = yesLabel
+	$('alertNoBtn').value = noLabel
+	$('alertYesBtn').addEventListener('click', yesFunc)
+	$('alertNoBtn').addEventListener('click', noFunc)
+	if (!binary) {
+		$('alertNoBtn').classList.add('hidden');
+	}
 }
 
 function Game() {
@@ -84,6 +118,64 @@ function Game() {
 		) {return true}
 		else {return false}
 	}
+}
+
+function chatWriteMessage(json) {
+	const div = document.createElement('div');
+	const timestamp = document.createElement('span');
+	const user = document.createElement('span');
+	const message = document.createElement('span');
+	div.appendChild(timestamp);
+	div.appendChild(user);
+	div.appendChild(message);
+	//timestamp.classList.add('chat');
+	//user.classList.add('chat');
+	//message.classList.add('chat');
+	const time = new Date(json.time)
+	timestamp.textContent = `${time.toTimeString().slice(0, 5)}`
+	user.textContent = `<${json.user}>  `;
+	message.textContent = json.message;
+	$('chatLog').appendChild(div);
+}
+
+function chatSend(msg, usr) {
+	const json = {
+		type: "chat",
+		time: new Date(),
+		message: msg,
+		user: usr
+	};
+	wsConnection.send(JSON.stringify(json));
+}
+
+function setBoard() {
+	const board = $('board');
+	for (let i = 0; i < 9; i++) {
+		const macro = document.createElement('div');
+		macro.classList.add('macro-cell', 'board');
+		macro.id = `macro${i}`;
+		board.appendChild(macro);
+		for (let j = 0; j < 9; j++) {
+			const micro = document.createElement('div');
+			micro.classList.add('micro-cell');
+			micro.id = `micro${i}-${j}`;
+			macro.appendChild(micro);
+			micro.addEventListener('click', () => playerMove(micro));
+			const span = document.createElement('span');
+			span.classList.add('micro-cell-marker');
+			micro.appendChild(span);
+		}
+		$(`micro${i}-4`).classList.add('micro-border');
+		$(`micro${i}-3`).classList.add('micro-border', 'micro-horizontal');
+		$(`micro${i}-5`).classList.add('micro-border', 'micro-horizontal');
+		$(`micro${i}-1`).classList.add('micro-border', 'micro-vertical');
+		$(`micro${i}-7`).classList.add('micro-border', 'micro-vertical');
+	}
+	$(`macro4`).classList.add('macro-border');
+	$(`macro3`).classList.add('macro-border', 'macro-horizontal');
+	$(`macro5`).classList.add('macro-border', 'macro-horizontal');
+	$(`macro1`).classList.add('macro-border', 'macro-vertical');
+	$(`macro7`).classList.add('macro-border', 'macro-vertical');
 }
 
 function markMacro(macro) {
@@ -198,6 +290,12 @@ function boardEmpty() {
 	$('innerRail').append(board);
 }
 
+function initialGameStart() {
+	newOfflineGame();
+	$('board').removeEventListener('click', initialGameStart);
+}
+
 // init
 setBoard();
 let game = null
+$('board').addEventListener('click', initialGameStart);

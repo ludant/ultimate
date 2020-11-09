@@ -1,24 +1,9 @@
-@media (prefers-color-scheme: dark) {
-  :root {
-    --base-bg: #131a21;
-    --text: #ddb;
-    --link-text: #4ad;
-  }
+:root {
+  --base-bg: #131a21;
+  --text: #ddb;
+  --link-text: #4ad;
 }
-@media (prefers-color-scheme: no-preference) {
-  :root {
-    --base-bg: #131a21;
-    --text: #ddb;
-    --link-text: #4ad;
-  }
-}
-@media (prefers-color-scheme: light) {
-  :root {
-    --base-bg: #fff;
-    --text: #222;
-    --link-text: #33f;
-  }
-}
+
 body {
   background: var(--base-bg);
   margin: 0;
@@ -28,6 +13,22 @@ body {
 * {
   color: var(--text);
   font-family: Arial, sans-serif;
+}
+
+.overlay {
+  position: absolute;
+  background: #000a;
+  width: 100%;
+  height: 100%;
+}
+
+.signin-header {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.space-between {
+  justify-content: space-between;
 }
 
 .header {
@@ -75,7 +76,30 @@ body {
 }
 
 .rail {
+  height: 100%;
   width: 100%;
+}
+
+.rail-left {
+  width: 30%;
+}
+
+#chatContainer {
+  padding: 1em;
+}
+
+#chatLog {
+  max-width: 30em;
+  height: 20em;
+}
+
+#chatInput {
+  max-width: 26em;
+}
+
+.chat {
+  background: #2e1e2e;
+  font-family: monospace;
 }
 
 .horizontal {
@@ -178,11 +202,11 @@ footer {
 }
 
 .x-turn {
-  background: linear-gradient(291deg, #311717, #4e2929);
+  background: linear-gradient(291deg, #1e0707, #4e2929);
 }
 
 .o-turn {
-  background: linear-gradient(69deg, #171731, #29294e);
+  background: linear-gradient(69deg, #07071e, #29294e);
 }
 
 .closed {

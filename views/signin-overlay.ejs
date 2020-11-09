@@ -1,0 +1,24 @@
+<div id="signInOverlay" class="flex hidden overlay">
+	<div class="rail"></div>
+	<div class="flex vertical">
+		<div class="rail"></div>
+		<form method="post" class="flex vertical signin" role="form">
+			<span class="signin-header">please sign in, or enter as guest</span>
+			<div class="flex">
+				<label for="username" class="right">username</label>
+				<input type="text" id="username" name="username" class="input input-text" required>
+			</div>
+			<div class="flex vertical-space">
+				<label for="password" class="right">password</label>
+				<input type="password" id="password" name="password" class="input input-text" required>
+			</div>
+			<div class="flex horizontal space-between align-center">
+				<a href="/register">register</a>
+				<input type="button" id="guestEnter" value="guest" class="input input-submit">
+				<input type="submit" value="submit" class="input input-submit">
+			</div>
+		</form>
+		<div class="rail"></div>
+	</div>
+	<div class="rail"></div>
+</div>
