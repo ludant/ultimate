@@ -12,7 +12,7 @@ body {
 
 * {
   color: var(--text);
-  font-family: Arial, sans-serif;
+  font-family: inherit, Arial, sans-serif;
 }
 
 .overlay {
@@ -54,8 +54,8 @@ body {
 }
 
 .input-text {
-  border: 0em solid #000;
-  border-radius: 0.3em;
+  border: 0.2em inset #646e;
+  border-radius: 0.5em;
 }
 
 .input-btn {
@@ -80,12 +80,9 @@ body {
   width: 100%;
 }
 
-.rail-left {
-  width: 30%;
-}
-
 #chatContainer {
   padding: 1em;
+  min-width: 19em;
 }
 
 #chatLog {
@@ -95,6 +92,10 @@ body {
 
 #chatInput {
   max-width: 26em;
+}
+
+#chatSubmit {
+  margin: 0.4em;
 }
 
 .chat {
@@ -144,7 +145,8 @@ footer {
 }
 
 #board {
-  width: 19em;
+  min-width: 19em;
+  max-height: 19em;
 }
 
 .board {
@@ -211,6 +213,10 @@ footer {
 
 .closed {
   background: #4447;
+}
+
+.opponent-highlight {
+  background: #45452992;
 }
 
 .macro-finished {

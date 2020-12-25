@@ -8,23 +8,37 @@ function $(id) {
 }
 
 $('newOfflineGameBtn').addEventListener('click', newOfflineGame);
-$('chatSubmit').addEventListener('click', () => {
-	chatSend($('chatInput').value, 'jesus');
-});
-$('newOnlineGameBtn').addEventListener('click', () => {
-	$('signInOverlay').classList.remove('hidden');
-});
-$('guestEnter').addEventListener('click', () => {
-	$('signInOverlay').classList.add('hidden');
+//$('newOnlineGameBtn').addEventListener('click', () => {
+//	hideOverlay();
+//	$('signInOverlay').classList.remove('hidden');
+//});
+$('joinGameBtn').addEventListener('click', () => {
+	hideOverlay();
 	$('guestOverlay').classList.remove('hidden');
 });
-$('guestNoName').addEventListener('click', () => {
-	$('guestOverlay').classList.add('hidden');
+$('createOnlineGameBtn').addEventListener('click', () => {
+	hideOverlay();
+	$('guestOverlay').classList.remove('hidden');
 });
-$('guestYesName').addEventListener('click', () => {
-	const userSession = new UserSession();
-	userSession.xPlayer = "THIS IS NOT DONE";
-	$('guestOverlay').classList.add('hidden');
+//$('guestEnter').addEventListener('click', () => {
+//	hideOverlay();
+//	$('guestOverlay').classList.remove('hidden');
+//});
+//$('guestNoName').addEventListener('click', hideOverlay);
+//$('guestYesName').addEventListener('click', () => {
+//	hideOverlay();
+//	const userSession = new UserSession();
+//	userSession.xPlayer = "THIS IS NOT DONE";
+//});
+$('tutorialBtn').addEventListener('click', () => {
+	hideOverlay();
+	showAlert(
+		"i will write a real good tutorial soon in the mean time here you go https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe",
+		false,
+	)
+});
+$('chatSubmit').addEventListener('click', () => {
+	chatSend($('chatInput').value, 'jesus');
 });
 
 wsConnection.onopen = () => {
@@ -57,7 +71,7 @@ function hideOverlay() {
 	});
 }
 
-function showAlert(message, binary, yesLabel="yes", noLabel="no", yesFunc, noFunc) {
+function showAlert(message, binary, yesFunc=hideOverlay, noFunc=hideOverlay, yesLabel="yes", noLabel="no") {
 	hideOverlay();
 	$('alertOverlay').classList.remove('hidden');
 	$('alertMessage').textContent = message;
@@ -68,6 +82,10 @@ function showAlert(message, binary, yesLabel="yes", noLabel="no", yesFunc, noFun
 	if (!binary) {
 		$('alertNoBtn').classList.add('hidden');
 	}
+}
+
+function Settings() {
+	this.highlightOpponentCheckbox = $('highlightOpponentCheckbox');
 }
 
 function Game() {
@@ -107,12 +125,15 @@ function Game() {
 
 	this.checkWin = function(grid) {
 		if (
+			// horizontal check, top, mid, bottom, 
 			(grid[0] !== null && grid[0] == grid[1] && grid[1] == grid[2]) ||
 			(grid[3] !== null && grid[3] == grid[4] && grid[4] == grid[5]) ||
 			(grid[6] !== null && grid[6] == grid[7] && grid[7] == grid[8]) ||
+			// vertical check, left, center, right
 			(grid[0] !== null && grid[0] == grid[3] && grid[3] == grid[6]) ||
 			(grid[1] !== null && grid[1] == grid[4] && grid[4] == grid[7]) ||
 			(grid[2] !== null && grid[2] == grid[5] && grid[5] == grid[8]) ||
+			// diagonal check
 			(grid[0] !== null && grid[0] == grid[4] && grid[4] == grid[8]) ||
 			(grid[2] !== null && grid[2] == grid[4] && grid[4] == grid[6])
 		) {return true}
@@ -160,7 +181,18 @@ function setBoard() {
 			micro.classList.add('micro-cell');
 			micro.id = `micro${i}-${j}`;
 			macro.appendChild(micro);
+			micro.addEventListener('mouseover', () => { 
+				if (game.openSpaces[i] &&
+					 settings.highlightOpponentCheckbox.checked) {
+					highlightOpponentCell(j) 
+				}
+			});
 			micro.addEventListener('click', () => playerMove(micro));
+			micro.addEventListener('mouseleave', () => {
+				document.querySelectorAll('.macro-cell').forEach((cell) => {
+					cell.classList.remove('opponent-highlight')
+				});
+			});
 			const span = document.createElement('span');
 			span.classList.add('micro-cell-marker');
 			micro.appendChild(span);
@@ -176,6 +208,21 @@ function setBoard() {
 	$(`macro5`).classList.add('macro-border', 'macro-horizontal');
 	$(`macro1`).classList.add('macro-border', 'macro-vertical');
 	$(`macro7`).classList.add('macro-border', 'macro-vertical');
+}
+
+function highlightOpponentCell(id) {
+	document.querySelectorAll('.macro-cell').forEach((cell) => {
+		cell.classList.remove('opponent-highlight')
+	});
+	if (!game.macroBoard[id]) { 
+		$(`macro${id}`).classList.add('opponent-highlight');
+	} else { // else highlight all other open cells
+		for (let i = 0; i < 9; i++) {
+			if (!game.macroBoard[i]) { 
+				$(`macro${i}`).classList.add('opponent-highlight');
+			}
+		}
+	}
 }
 
 function markMacro(macro) {
@@ -287,15 +334,18 @@ function boardEmpty() {
 	const board = document.createElement('div');
 	board.id = 'board';
 	board.classList.add('board');
-	$('innerRail').append(board);
+	$('innerRail').prepend(board);
 }
 
 function initialGameStart() {
+	// i believe this function needs to be called to pull the trick of removing the event listener which calls this function.
 	newOfflineGame();
 	$('board').removeEventListener('click', initialGameStart);
 }
 
 // init
+const settings = new Settings()
+settings.highlightOpponentCheckbox.checked = true
 setBoard();
 let game = null
 $('board').addEventListener('click', initialGameStart);

@@ -1,15 +1,19 @@
 <%- include('header') %>
 <%- include('signin-overlay') %>
 <%- include('guest-overlay') %>
+<%- include('alert-overlay') %>
 <header class="header">
 	<div class="header-div">
 		<button id="newOfflineGameBtn" class="input input-btn">
 			play offline	
 		</button>
-		<button id="newOnlineGameBtn" class="input input-btn">
-			play online	
+		<button id="joinGameBtn" class="input input-btn">
+			join online	game
 		</button>
-		<button id="tutorial" class="input input-btn">
+		<button id="createOnlineGameBtn" class="input input-btn">
+			create online game	
+		</button>
+		<button id="tutorialBtn" class="input input-btn">
 			how to play	
 		</button>
 	</div>
@@ -17,25 +21,34 @@
 		<span id="textInfo" class="text-info"></span>
 	</div>
 	<div class="header-div">
+		<!--
 		<% if (username) { %>
 			<span class="username"><%= username %></span>
 			<a href="/signout" class="username no-left">sign out</a>
 		<% } else { %>
 			<a href="/signin" class="username">sign in</a>
 		<% } %>
+		-->
 	</div>
 </header>
 <div id="hiddenDiv" class="hidden"></div>
 <div id="boardContainer" class="flex">
-	<div class="rail-left"></div>
-	<div id="innerRail">
+	<div class="rail"></div>
+	<div id="innerRail" class="flex">
 		<div id="board" class="board"></div>
+		<div id="chatContainer" class="rail">
+			<div id="chatLog" class="input input-text chat"></div>
+			<div class="flex">
+				<textarea id="chatInput" class="input input-text chat"></textarea>
+				<input id="chatSubmit" type="submit" value="send" class="input chat">
+			</div>
+		</div>
 	</div>
-	<div id="chatContainer" class="rail">
-		<div id="chatLog" class="input input-text chat"></div>
-		<textarea id="chatInput" class="input input-text chat"></textarea>
-		<input id="chatSubmit" type="submit" value="send" class="input chat">
-	</div>
+	<div class="rail"></div>
+</div>
+<div id="settingsDiv">
+	<input type="checkbox" id="highlightOpponentCheckbox">
+	<label for="highlightOpponentCheckbox">highlight opponent's next move</label>
 </div>
 <script
 	language="JavaScript"

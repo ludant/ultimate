@@ -28,7 +28,7 @@ body
 
 *
 	color: var(--text)
-	font-family: Arial, sans-serif
+	font-family: inherit, Arial, sans-serif
 
 .overlay
 	position: absolute
@@ -62,8 +62,8 @@ body
 	padding: .4em .8em
 
 .input-text
-	border: 0em solid #000
-	border-radius: .3em
+	border: .2em inset #646e 
+	border-radius: .5em
 
 .input-btn
 	margin: 1em
@@ -83,11 +83,9 @@ body
 	height: 100%
 	width: 100% 
 
-.rail-left
-	width: 30%
-
 #chatContainer
 	padding: 1em
+	min-width: 19em
 
 #chatLog
 	max-width: 30em
@@ -95,6 +93,9 @@ body
 
 #chatInput
 	max-width: 26em
+
+#chatSubmit
+	margin: .4em
 
 .chat
 	background: #2e1e2e
@@ -133,7 +134,8 @@ footer
 	align-self: flex-end
 
 #board
-	width: 19em
+	min-width: 19em
+	max-height: 19em
 
 .board
 	display: grid
@@ -185,6 +187,9 @@ footer
 
 .closed
 	background: #4447
+
+.opponent-highlight
+	background: #45452992
 
 .macro-finished
 	position: relative
