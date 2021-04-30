@@ -1,26 +1,30 @@
 <%- include('header') %>
 <%- include('signin-overlay') %>
-<%- include('guest-overlay') %>
+<%- include('create-game-overlay') %>
+<%- include('join-game-overlay') %>
 <%- include('alert-overlay') %>
-<header class="header">
+<header class="flex">
 	<div class="header-div">
 		<button id="newOfflineGameBtn" class="input input-btn">
 			play offline	
 		</button>
-		<button id="joinGameBtn" class="input input-btn">
+		<button id="joinOnlineGameBtn" class="input input-btn">
 			join online	game
 		</button>
 		<button id="createOnlineGameBtn" class="input input-btn">
 			create online game	
 		</button>
+		<!--
 		<button id="tutorialBtn" class="input input-btn">
 			how to play	
 		</button>
+		-->
 	</div>
 	<div class="header-div">
 		<span id="textInfo" class="text-info"></span>
 	</div>
 	<div class="header-div">
+		<span id="usernameDisplay" class="username"></span>
 		<!--
 		<% if (username) { %>
 			<span class="username"><%= username %></span>
@@ -47,7 +51,7 @@
 	<div class="rail"></div>
 </div>
 <div id="settingsDiv">
-	<input type="checkbox" id="highlightOpponentCheckbox">
+	<input type="checkbox" id="highlightOpponentCheckbox" checked>
 	<label for="highlightOpponentCheckbox">highlight opponent's next move</label>
 </div>
 <script

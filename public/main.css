@@ -4,9 +4,11 @@
   --link-text: #4ad;
 }
 
-body {
+html, body {
   background: var(--base-bg);
   margin: 0;
+  padding: 0;
+  min-height: 100%;
   height: 100%;
 }
 
@@ -31,10 +33,6 @@ body {
   justify-content: space-between;
 }
 
-.header {
-  display: flex;
-}
-
 .header-div {
   width: 100%;
   display: flex;
@@ -42,8 +40,8 @@ body {
 }
 
 .username {
+  margin: 2em;
   margin-left: auto;
-  margin-right: 1em;
 }
 
 .input {
@@ -132,6 +130,13 @@ label {
   width: max-content;
 }
 
+.id-display {
+  background: #2e1e2e;
+  font-family: monospace;
+  color: #ccc;
+  font-size: 1.5em;
+}
+
 .signin {
   background: #1a2a32;
   border-radius: 1em;
@@ -140,8 +145,6 @@ label {
 
 footer {
   margin: 1em;
-  margin-right: auto;
-  align-self: flex-end;
 }
 
 #board {
@@ -216,7 +219,7 @@ footer {
 }
 
 .opponent-highlight {
-  background: #45452992;
+  background: #454529;
 }
 
 .macro-finished {

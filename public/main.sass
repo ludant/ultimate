@@ -1,227 +1,230 @@
 //@media (prefers-color-scheme: dark)
 //:root
-//	--base-bg: #131a21
-//	--text: #ddb
-//	--link-text: #4ad
+//  --base-bg: #131a21
+//  --text: #ddb
+//  --link-text: #4ad
 //
 //@media (prefers-color-scheme: no-preference)
-//	:root
-//		--base-bg: #131a21
-//		--text: #ddb
-//		--link-text: #4ad
+//  :root
+//    --base-bg: #131a21
+//    --text: #ddb
+//    --link-text: #4ad
 //
 //@media (prefers-color-scheme: light)
-//	:root
-//		--base-bg: #fff
-//		--text: #222
-//		--link-text: #33f
+//  :root
+//    --base-bg: #fff
+//    --text: #222
+//    --link-text: #33f
 
 :root
-	--base-bg: #131a21
-	--text: #ddb
-	--link-text: #4ad
+  --base-bg: #131a21
+  --text: #ddb
+  --link-text: #4ad
 
-body
-	background: var(--base-bg)
-	margin: 0
-	height: 100%
+html, body
+  background: var(--base-bg)
+  margin: 0
+  padding: 0
+  min-height: 100%
+  height: 100%
 
 *
-	color: var(--text)
-	font-family: inherit, Arial, sans-serif
+  color: var(--text)
+  font-family: inherit, Arial, sans-serif
 
 .overlay
-	position: absolute
-	background: #000a
-	width: 100%
-	height: 100%
+  position: absolute
+  background: #000a
+  width: 100%
+  height: 100%
 
 .signin-header
-	text-align: center
-	margin-bottom: 1em
+  text-align: center
+  margin-bottom: 1em
 
 .space-between
-	justify-content: space-between
-
-.header
-	display: flex
+  justify-content: space-between
 
 .header-div
-	width: 100% 
-	display: flex
-	align-items: center
+  width: 100% 
+  display: flex
+  align-items: center
 
 .username
-	margin-left: auto
-	margin-right: 1em
+  margin: 2em
+  margin-left: auto
 
 .input
-	background: #525
-	border: .3em outset #737
-	border-radius: .7em
-	padding: .4em .8em
+  background: #525
+  border: .3em outset #737
+  border-radius: .7em
+  padding: .4em .8em
 
 .input-text
-	border: .2em inset #646e 
-	border-radius: .5em
+  border: .2em inset #646e 
+  border-radius: .5em
 
 .input-btn
-	margin: 1em
+  margin: 1em
 
 .text-info
-	width: 100%
-	text-align: center
+  width: 100%
+  text-align: center
 
 .container
-	width: 100%
-	height: 100vh
-	display: flex
-	flex-direction: column
-	justify-content: space-between
+  width: 100%
+  height: 100vh
+  display: flex
+  flex-direction: column
+  justify-content: space-between
 
 .rail
-	height: 100%
-	width: 100% 
+  height: 100%
+  width: 100% 
 
 #chatContainer
-	padding: 1em
-	min-width: 19em
+  padding: 1em
+  min-width: 19em
 
 #chatLog
-	max-width: 30em
-	height: 20em
+  max-width: 30em
+  height: 20em
 
 #chatInput
-	max-width: 26em
+  max-width: 26em
 
 #chatSubmit
-	margin: .4em
+  margin: .4em
 
 .chat
-	background: #2e1e2e
-	font-family: monospace
+  background: #2e1e2e
+  font-family: monospace
 
 .horizontal
-	flex-direction: row
+  flex-direction: row
 
 .vertical
-	flex-direction: column
+  flex-direction: column
 
 .vertical-space
-	margin: 1em 0em
+  margin: 1em 0em
 
 .align-center
-	align-items: center
+  align-items: center
 
 .flex
-	display: flex
+  display: flex
 
 .right
-	margin-left: auto
+  margin-left: auto
 
 label
-	padding: .4em .8em
-	width: max-content
+  padding: .4em .8em
+  width: max-content
+
+.id-display
+  background: #2e1e2e
+  font-family: monospace
+  color: #ccc
+  font-size: 1.5em
 
 .signin
-	background: #1a2a32
-	border-radius: 1em
-	padding: 1em
+  background: #1a2a32
+  border-radius: 1em
+  padding: 1em
 
 footer
-	margin: 1em
-	margin-right: auto
-	align-self: flex-end
+  margin: 1em
 
 #board
-	min-width: 19em
-	max-height: 19em
+  min-width: 19em
+  max-height: 19em
 
 .board
-	display: grid
-	grid-template-columns: 1fr 1fr 1fr
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
 
 .marker-x
-	color: #e99
+  color: #e99
 
 .marker-o
-	color: #99e
+  color: #99e
 
 .micro-cell
-	display: flex 
-	align-items: center
-	justify-content: center
-	width: 1.5em
-	height: 1.5em
+  display: flex 
+  align-items: center
+  justify-content: center
+  width: 1.5em
+  height: 1.5em
 
 .macro-cell
-	justify-self: center
-	padding: .8em
+  justify-self: center
+  padding: .8em
 
 .micro-border
-	border: 1px solid #555
+  border: 1px solid #555
 
 .micro-horizontal
-	border-width: 1px 0px
+  border-width: 1px 0px
 
 .micro-vertical
-	border-width: 0px 1px
+  border-width: 0px 1px
 
 .macro-border
-	border: 4px ridge #555
+  border: 4px ridge #555
 
 .macro-horizontal
-	border-width: 4px 0px
+  border-width: 4px 0px
 
 .macro-vertical
-	border-width: 0px 4px
+  border-width: 0px 4px
 
 .open:hover, .last-move
-	background: #ff03
+  background: #ff03
 
 .x-turn
-	background: linear-gradient(291deg, #1e0707, #4e2929)
+  background: linear-gradient(291deg, #1e0707, #4e2929)
 
 .o-turn
-	background: linear-gradient(69deg, #07071e, #29294e) 
+  background: linear-gradient(69deg, #07071e, #29294e) 
 
 .closed
-	background: #4447
+  background: #4447
 
 .opponent-highlight
-	background: #45452992
+  background: #454529
 
 .macro-finished
-	position: relative
+  position: relative
 
 .macro-finished:before
-	content: ""
-	display: block
-	position: absolute
-	top: 0
-	left: 0
-	background: url('assets/x_macro.png')
-	background-size: contain
-	width: 100%
-	height: 100%
-	opacity: 0.25
+  content: ""
+  display: block
+  position: absolute
+  top: 0
+  left: 0
+  background: url('assets/x_macro.png')
+  background-size: contain
+  width: 100%
+  height: 100%
+  opacity: 0.25
 
 .macro-finished-0
-	position: relative
+  position: relative
 
 .macro-finished-o:before
-	background: url('assets/o_macro.png')
-	background-size: contain
+  background: url('assets/o_macro.png')
+  background-size: contain
 
 .transparent-cell
-	opacity: .65
+  opacity: .65
 
 a
-	color: var(--link-text)
-	text-decoration: underline
+  color: var(--link-text)
+  text-decoration: underline
 
 .no-left
-	margin-left: 0
+  margin-left: 0
 
 .hidden
-	display: none
+  display: none

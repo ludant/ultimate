@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const morgan = require('morgan');
 const webSocket = require('ws');
@@ -53,13 +51,14 @@ wss.on('connection', (ws) => {
 	sockets.push(ws);
 	
 	ws.on('message', (message) => {
-		console.log(`recieved ${message}, socket: ${ws}`);
-		sockets.forEach(s => s.send(message));
+		console.log(message)
+		sockets.forEach(s => {s.send(message)})
 	});
 
 	ws.on('close', () => {
 		f.take(sockets, ws);
 	});
+
 });
 
 app.use('/', router);

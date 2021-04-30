@@ -41,8 +41,8 @@ var sockets = [];
 wss.on('connection', function (ws) {
     sockets.push(ws);
     ws.on('message', function (message) {
-        console.log("recieved " + message + ", socket: " + ws);
-        sockets.forEach(function (s) { return s.send(message); });
+        console.log(message);
+        sockets.forEach(function (s) { s.send(message); });
     });
     ws.on('close', function () {
         f.take(sockets, ws);
