@@ -1,36 +1,36 @@
 {
-  "version": "2.0.1",
-  "description": "https://ludant.github.io/ultimate/",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "devstart": "nodemon app.js",
-    "tsc": "tsc app.ts; tsc public/script.ts",
-    "sass": "sass --watch public/main.sass public/main.css"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ludant/ultimate.git"
-  },
-  "author": "ludant",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/ludant/ultimate/issues"
-  },
-  "homepage": "https://github.com/ludant/ultimate#readme",
-  "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
-    "ejs": "^3.1.5",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "mongoose": "^5.10.13",
-    "morgan": "^1.10.0",
-    "ws": "^7.3.1",
-    "wss": "^3.3.4"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.6"
-  }
+	"version": "2.0.1",
+	"description": "https://ludant.github.io/ultimate/",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js",
+		"devstart": "nodemon app.js",
+		"tscwatch": "tsc --watch app.ts; tsc --watch public/script.ts",
+		"sass": "sass --watch public/main.sass public/main.css"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ludant/ultimate.git"
+	},
+	"author": "ludant",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/ludant/ultimate/issues"
+	},
+	"homepage": "https://github.com/ludant/ultimate#readme",
+	"dependencies": {
+		"bcrypt-nodejs": "0.0.3",
+		"body-parser": "^1.19.0",
+		"cookie-parser": "^1.4.5",
+		"ejs": "^3.1.5",
+		"express": "^4.17.1",
+		"express-session": "^1.17.1",
+		"mongoose": "^5.10.13",
+		"morgan": "^1.10.0",
+		"ws": "^7.3.1",
+		"wss": "^0.0.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6"
+	}
 }

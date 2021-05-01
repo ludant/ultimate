@@ -10,7 +10,8 @@ function $(id) {
     return document.getElementById(id);
 }
 function Settings() {
-    this.highlightOpponentCheckbox = $('highlightOpponentCheckbox');
+    this.highlightOpponentCheckbox =
+        $('highlightOpponentCheckbox').checked;
 }
 function Session(clientName) {
     var _this = this;
@@ -50,11 +51,10 @@ function Session(clientName) {
 }
 function Game() {
     var _this = this;
+    this.offline = true;
     this.xTurn = true;
-    this.inPlay = false;
     this.player = 'X';
-    this.playerAllowed = true;
-    this.gameWin = false;
+    this.win = false;
     this.fullBoard = [
         [null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null],
@@ -70,6 +70,7 @@ function Game() {
         [null, null, null, null, null, null, null, null, null];
     this.openSpaces =
         [true, true, true, true, true, true, true, true, true];
+    // these are in a function so i can fold them easily
     this.newOfflineGame = function () {
         $('container').classList.add('x-turn');
         $('hiddenDiv').classList.add('last-move');
@@ -77,14 +78,15 @@ function Game() {
         _this.boardClear();
         _this.boardGenerate();
         _this.markOpenMicroCells();
-        _this.inPlay = true;
     };
     this.changeTurn = function () {
         _this.xTurn = !_this.xTurn;
-        if (session.opponentConnected) {
-            // probs do something idk
+        if (_this.offline) {
+            _this.changePlayer();
         }
-        _this.changePlayer();
+        else {
+            // ¯\_(ツ)_/¯
+        }
     };
     this.changePlayer = function () {
         if (_this.xTurn) {
@@ -131,15 +133,17 @@ function Game() {
                 macro.appendChild(micro);
                 micro.addEventListener('mouseover', function () {
                     if (_this.openSpaces[i] &&
-                        _this.inPlay &&
-                        settings.highlightOpponentCheckbox.checked) {
+                        ((_this.player == 'X') == _this.xTurn) &&
+                        settings.highlightOpponentCheckbox) {
                         _this.highlightOpponentCell(j);
                     }
                 });
-                micro.addEventListener('click', function () { return _this.playerMove(micro); });
-                var macroCells = document.querySelectorAll('.macro-cell');
+                micro.addEventListener('click', function () {
+                    if ((_this.player == 'X') == _this.xTurn)
+                        _this.playerMove(micro);
+                });
                 micro.addEventListener('mouseleave', function () {
-                    macroCells.forEach(function (cell) {
+                    document.querySelectorAll('.macro-cell').forEach(function (cell) {
                         cell.classList.remove('opponent-highlight');
                     });
                 });
@@ -222,7 +226,7 @@ function Game() {
             var marker = cell.children[0];
             marker.textContent = _this.player;
             cell.classList.add('marked');
-            __spreadArrays(document.querySelectorAll('.open')).forEach(function (cell) {
+            Array.from(document.querySelectorAll('.open')).forEach(function (cell) {
                 cell.classList.remove('open');
             });
             if (_this.xTurn) {
@@ -240,7 +244,7 @@ function Game() {
                 _this.macroBoard[id[0]] = _this.player;
                 _this.markMacro($("macro" + id[0]));
                 if (_this.checkWin(_this.macroBoard)) {
-                    _this.gameWin = true;
+                    _this.win = true;
                     _this.openSpaces = _this.openSpaces.map(function (x) { return false; });
                     if (_this.xTurn) {
                         $('container').classList.remove('x-turn');
@@ -254,7 +258,7 @@ function Game() {
             }
             document.querySelector('.last-move').classList.remove('last-move');
             cell.classList.add('last-move');
-            if (!_this.gameWin) {
+            if (!_this.win) {
                 _this.closeMacroCells(id);
                 _this.markOpenMicroCells();
                 _this.changeTurn();
@@ -275,7 +279,7 @@ function Game() {
     this.markMacro = function (macro) {
         macro.classList.add('macro-finished');
         if (!_this.xTurn) {
-            _this.classList.add('macro-finished-o');
+            macro.classList.add('macro-finished-o');
         }
         macro.classList.add('closed');
         __spreadArrays(macro.children).forEach(function (micro) {
@@ -300,11 +304,6 @@ function showAlert(message, hideNoBtn, yesFunc, noFunc, yesLabel, noLabel) {
         $('alertNoBtn').classList.add('hidden');
     }
 }
-function fetchJsonAsset(url, store) {
-    fetch(url)
-        .then(function (res) { return res.json(); })
-        .then(function (json) { return store = json; });
-}
 function chatWriteMessage(json) {
     var div = document.createElement('div');
     var timestamp = document.createElement('span');
@@ -313,11 +312,12 @@ function chatWriteMessage(json) {
     div.appendChild(timestamp);
     div.appendChild(user);
     div.appendChild(message);
-    //timestamp.classList.add('chat');
-    //user.classList.add('chat');
-    //message.classList.add('chat');
+    div.classList.add('chat-line');
+    timestamp.classList.add('chat-timestamp');
+    //user.classList.add('chat-user');
+    //message.classList.add('chat-message');
     var time = new Date(json.time);
-    timestamp.textContent = "" + time.toTimeString().slice(0, 5);
+    timestamp.textContent = time.toTimeString().slice(0, 5) + " ";
     user.textContent = "<" + json.user + ">  ";
     message.textContent = json.message;
     $('chatLog').appendChild(div);
@@ -370,6 +370,9 @@ function addEventListeners() {
     });
     $('guestYesNameBtn').addEventListener('click', function () {
         session = new Session($('usernameInputField').value);
+        if (session.clientName == '') {
+            session.chooseGuestName();
+        }
         $('usernameDisplay').textContent = 'guest: ' + session.clientName;
         $('sessionIDLabel').classList.remove('hidden');
         $('sessionIDDisplay').classList.remove('hidden');
@@ -393,29 +396,38 @@ function addEventListeners() {
             chatSend($('chatInput').value.trim(), session.clientName);
         }
     };
+    $('highlightOpponentCheckbox').addEventListener('change', function () {
+        settings.highlightOpponentCheckbox =
+            $('highlightOpponentCheckbox').checked;
+    });
 }
 function startGameWithBoardClick() {
     // this function needs to be called to pull the trick of removing the event  
     // listener which calls this function.
+    //
+    // also this is knida a bad idea
     game = new Game();
     game.newOfflineGame();
     $('board').removeEventListener('click', startGameWithBoardClick);
 }
+var dicewareDict = [];
+var guestNames = [];
+function fetchDicts() {
+    fetch('assets/diceware.json')
+        .then(function (res) { return res.json(); })
+        .then(function (json) { return dicewareDict = json; });
+    fetch('assets/names.json')
+        .then(function (res) { return res.json(); })
+        .then(function (json) { return guestNames = json; });
+}
+fetchDicts();
 function main() {
     addEventListeners();
     game.boardGenerate();
+    game.player = null;
     $('board').addEventListener('click', startGameWithBoardClick);
+    $('hiddenDiv').classList.add('last-move');
 }
-var dicewareDict = [];
-var guestNames = [];
-fetchJsonAsset('assets/diceware.json', dicewareDict);
-fetchJsonAsset('assets/names.json', guestNames);
-fetch('assets/diceware.json')
-    .then(function (res) { return res.json(); })
-    .then(function (json) { return dicewareDict = json; });
-fetch('assets/names.json')
-    .then(function (res) { return res.json(); })
-    .then(function (json) { return guestNames = json; });
 var wsUrl = 'ws://localhost:7565/';
 var wsConnection = new WebSocket(wsUrl);
 // the connection will connect without this func, but when i edit it later it

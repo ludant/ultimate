@@ -12,35 +12,17 @@ const wss = new webSocket.Server({ port: 7565 });
 
 const app = express();
 
+function take(arr, item) {
+	arr.splice(arr.indexOf(item), 1);
+	return arr;
+};
+
+function isArr(obj) {
+	return Object.prototype.toString.call(obj) === '[object Array]'
+}
+
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
-
-//const SALT_FACTOR = 10;
-
-//const userSchema = mongoose.Schema({
-//	username: { type: String, required: true, unique: true },
-//	password: { type: String, required: true },
-//	email: { type: Date, default: Date.now },
-//	bio: String
-//});
-
-//function noop() {}
-
-//userSchema.pre('save', function(done) {
-//	const user = this;
-//	if (!user.isModified('password')) {
-//		return done();
-//	}
-//	function storePassword(err, hashedPassword) {
-//		if (err) { return done(err); }
-//		user.password = hashedPassword;
-//		done();
-//	}
-//	bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-//		if (err) { return done(err); }
-//		bcrypt.hash(user.password, salt, noop, storePassword)
-//	});
-//});
 
 const port = process.env.PORT || 8792;
 
@@ -56,7 +38,7 @@ wss.on('connection', (ws) => {
 	});
 
 	ws.on('close', () => {
-		f.take(sockets, ws);
+		take(sockets, ws);
 	});
 
 });

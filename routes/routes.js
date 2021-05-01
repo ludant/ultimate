@@ -1,13 +1,13 @@
 "use strict";
-var express = require('express');
-var router = express.Router();
-router.get('/', function (req, res) {
+const express = require('express');
+const router = express.Router();
+router.get('/', (req, res) => {
     res.render('index', { username: null });
 });
-router.get('/signin', function (req, res) {
+router.get('/signin', (req, res) => {
     res.render('signin');
 });
-router.get('/register', function (req, res) {
+router.get('/register', (req, res) => {
     res.render('register');
 });
 module.exports = router;
